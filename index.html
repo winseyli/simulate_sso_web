@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SSO Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #0078d4;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        .info {
+            background-color: #f0f7ff;
+            border-left: 4px solid #0078d4;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>SSO Login Simulator</h1>
+    
+    <div class="form-group">
+        <label for="redirectUri">Your App's Redirect URI:</label>
+        <input type="text" id="redirectUri" placeholder="com.yourcompany.app://auth" value="com.yourcompany.app://auth">
+    </div>
+    
+    <div class="form-group">
+        <label for="token">Mock Access Token:</label>
+        <input type="text" id="token" placeholder="mock_access_token_12345" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ">
+    </div>
+    
+    <button onclick="simulateLogin()">Simulate Login</button>
+    
+    <div class="info">
+        <p>This page simulates a Microsoft SSO login flow. When you click "Simulate Login", it will:</p>
+        <ol>
+            <li>Generate a redirect URL with your mock token</li>
+            <li>Redirect to your app using the provided redirect URI</li>
+        </ol>
+        <p>Your iOS app should then capture this redirect and extract the token.</p>
+    </div>
+
+    <script>
+        function simulateLogin() {
+            const redirectUri = document.getElementById('redirectUri').value;
+            const token = document.getElementById('token').value;
+            
+            if (!redirectUri) {
+                alert('Please enter a redirect URI');
+                return;
+            }
+            
+            // Create a redirect URL with the token in the fragment
+            const redirectUrl = `${redirectUri}#access_token=${token}&token_type=bearer&expires_in=3600`;
+            
+            // Redirect to the app
+            window.location.href = redirectUrl;
+        }
+    </script>
+</body>
+</html>
