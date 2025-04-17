@@ -1,0 +1,42 @@
+name: Kick off a new release
+description: This workflow is triggered manually to create a new release branch and optionally increment the version and build numbers.
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: 'Select the app to release'
+        required: true
+        type: choice
+        options:
+          - Education
+          - Families
+
+jobs:
+  start-release:
+    # Run on macos-latest instead of ubuntu-latest because we need to run fastlane and xcodebuild
+    runs-on: macos-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Create release branch, with lowercase app name
+        run: |
+          git checkout -b test_branch
+          
+      # For consistency, we convert all values to shell variables first, then reference them with the shell syntax
+      - name: Create Pull Request
+        env:
+          # Necessary to set as an environment variable to provide authentication for the GitHub CLI to interact with the repository
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_title="Release: test"
+          pr_body="## Release Details"
+          
+          gh pr create \
+            --title "$pr_title" \
+            --body "$pr_body" \
+            --base main \
+            --head test_branch
