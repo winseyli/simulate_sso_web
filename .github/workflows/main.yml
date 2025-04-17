@@ -26,17 +26,12 @@ jobs:
         run: |
           git checkout -b test_branch
           
-      # For consistency, we convert all values to shell variables first, then reference them with the shell syntax
       - name: Create Pull Request
-        env:
-          # Necessary to set as an environment variable to provide authentication for the GitHub CLI to interact with the repository
-          GITHUB_TOKEN: ${{ secrets.GIT_PAT_TOKEN }}
-        run: |
-          pr_title="Release: test"
-          pr_body="## Release Details"
-          
-          gh pr create \
-            --title "$pr_title" \
-            --body "$pr_body" \
-            --base main \
-            --head test_branch
+        uses: devops-infra/action-pull-request@v0.5.0
+        with:
+          github_token: ${{ secrets.GIT_PAT_TOKEN }}
+          source_branch: release/test_branch
+          target_branch: main
+          title: "Release: test"
+          body: "This PR was created by a GitHub Action."
+
