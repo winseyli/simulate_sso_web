@@ -30,7 +30,7 @@ jobs:
       - name: Create Pull Request
         env:
           # Necessary to set as an environment variable to provide authentication for the GitHub CLI to interact with the repository
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_PAT_TOKEN }}
         run: |
           pr_title="Release: test"
           pr_body="## Release Details"
