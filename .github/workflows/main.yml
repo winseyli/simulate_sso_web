@@ -37,8 +37,11 @@ jobs:
           git add .
           git commit -m "test commit"
 
-      - name: Push branch
-        run: git push origin test_branch
+      - name: Push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push https://x-access-token:${{ secrets.GIT_PAT_TOKEN }}@github.com/<owner>/<repo>.git test_branch
 
       - name: Set up GitHub CLI
         run: brew install gh
