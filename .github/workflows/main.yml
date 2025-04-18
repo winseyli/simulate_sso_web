@@ -17,6 +17,22 @@ jobs:
     # Run on macos-latest instead of ubuntu-latest because we need to run fastlane and xcodebuild
     runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create a new branch and make a change
+        run: |
+          git checkout -b test_branch
+          echo "Updated at $(date)" >> README.md
+          git add README.md
+          git commit -m "Update README with timestamp"
+          git push origin test_branch
+          
       - name: Set up GitHub CLI
         run: brew install gh
       
