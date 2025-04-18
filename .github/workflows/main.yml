@@ -36,7 +36,7 @@ jobs:
         run: |
           gh pr create \
             --base main \
-            --head release/test \
+            --head test_branch \
             --title "Release: test" \
             --body "This PR was created by GitHub Actions"
 
