@@ -25,13 +25,18 @@ jobs:
       - name: Create release branch, with lowercase app name
         run: |
           git checkout -b test_branch
-          
+
+      - name: Set up GitHub CLI
+        run: brew install gh
+      
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GIT_PAT_TOKEN }}" | gh auth login --with-token
+      
       - name: Create Pull Request
-        uses: devops-infra/action-pull-request@v0.5.0
-        with:
-          github_token: ${{ secrets.GIT_PAT_TOKEN }}
-          source_branch: release/test_branch
-          target_branch: main
-          title: "Release: test"
-          body: "This PR was created by a GitHub Action."
+        run: |
+          gh pr create \
+            --base main \
+            --head release/test \
+            --title "Release: test" \
+            --body "This PR was created by GitHub Actions"
 
