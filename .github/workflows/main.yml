@@ -41,7 +41,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git push https://x-access-token:${{ secrets.GIT_PAT_TOKEN }}@github.com/<owner>/<repo>.git test_branch
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_PAT_TOKEN }}@github.com/winseyli/simulate_sso_web.git
+          git push origin test_branch
 
       - name: Set up GitHub CLI
         run: brew install gh
