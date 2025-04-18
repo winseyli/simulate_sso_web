@@ -17,33 +17,6 @@ jobs:
     # Run on macos-latest instead of ubuntu-latest because we need to run fastlane and xcodebuild
     runs-on: macos-latest
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v3
-        with:
-          ref: main
-
-      - name: Create release branch, with lowercase app name
-        run: |
-          git checkout -b test_branch
-
-      - name: Append timestamp to README.md
-        run: |
-          echo "Updated at: $(date)" >> README.md
-
-      - name: Commit change
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "test commit"
-
-      - name: Push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GIT_PAT_TOKEN }}@github.com/winseyli/simulate_sso_web.git
-          git push origin test_branch
-
       - name: Set up GitHub CLI
         run: brew install gh
       
